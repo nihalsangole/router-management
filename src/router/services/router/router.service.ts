@@ -5,13 +5,12 @@ import { Router } from 'src/router/entities/router.entity';
 
 import { Repository } from 'typeorm';
 
-
 @Injectable()
 export class RouterService implements OnModuleInit {
   constructor(
-      @InjectRepository(Router)
-      private readonly routerRepository: Repository<Router>,
-      private readonly bcryptService: BcryptService,
+    @InjectRepository(Router)
+    private readonly routerRepository: Repository<Router>,
+    private readonly bcryptService: BcryptService,
   ) {}
 
   async onModuleInit() {
@@ -37,8 +36,6 @@ export class RouterService implements OnModuleInit {
     } else {
       console.log('Router already exists in the database.');
     }
-
-    
   }
 
   private async updateUptime(router: Router): Promise<Router> {
@@ -54,11 +51,13 @@ export class RouterService implements OnModuleInit {
       const currentUptime = parseInt(router.uptime.split(' ')[0], 10) || 0;
       router.uptime = `${currentUptime + hoursDifference} hours`;
       router.lastWiFiEnabledAt = now; // Update the last enabled time
-     return await this.routerRepository.save(router);
+      return await this.routerRepository.save(router);
     }
   }
 
-  async ShowRouterDetails(): Promise<Omit<Router, 'adminPassword' | 'accessPointPassword'>> {
+  async ShowRouterDetails(): Promise<
+    Omit<Router, 'adminPassword' | 'accessPointPassword'>
+  > {
     const router = await this.routerRepository.findOne({
       where: { serialNumber: 'SN123456789' },
       relations: ['connected_users'],
@@ -68,12 +67,11 @@ export class RouterService implements OnModuleInit {
     }
 
     if (router.wifiEnabled) {
-      const updated = await  this.updateUptime(router);
-       if (updated) {
-           router.uptime = updated.uptime;
-         }
-     }
-
+      const updated = await this.updateUptime(router);
+      if (updated) {
+        router.uptime = updated.uptime;
+      }
+    }
 
     const { adminPassword, accessPointPassword, ...routerDetails } = router;
     return routerDetails;
@@ -87,16 +85,15 @@ export class RouterService implements OnModuleInit {
       throw new BadRequestException('Router not found');
     }
 
-     // Update uptime dynamically whenever details are fetched
-     if (router.wifiEnabled) {
-     const updated = await  this.updateUptime(router);
+    // Update uptime dynamically whenever details are fetched
+    if (router.wifiEnabled) {
+      const updated = await this.updateUptime(router);
       if (updated) {
-          router.uptime = updated.uptime;
-        }
+        router.uptime = updated.uptime;
+      }
     }
     return router;
   }
-
 
   async enableWiFi(): Promise<string> {
     const router = await this.getRouterDetails();
@@ -115,13 +112,13 @@ export class RouterService implements OnModuleInit {
     }
     router.wifiEnabled = false;
 
-     // Update uptime before disabling WiFi
-     this.updateUptime(router);
+    // Update uptime before disabling WiFi
+    this.updateUptime(router);
 
-     router.wifiEnabled = false;
+    router.wifiEnabled = false;
     router.uptime = '0 hours'; // Reset uptime when WiFi is disabled
-     await this.routerRepository.save(router);
-    
+    await this.routerRepository.save(router);
+
     return 'WiFi has been disabled.';
   }
 
@@ -165,7 +162,6 @@ export class RouterService implements OnModuleInit {
     return 'Access point name has been changed successfully.';
   }
 
-
   async changeAccessPointPassword(newPassword: string): Promise<string> {
     if (!newPassword || newPassword.trim() === '') {
       throw new BadRequestException('Access point password cannot be empty.');
@@ -176,7 +172,7 @@ export class RouterService implements OnModuleInit {
     return 'Access point password has been changed successfully.';
   }
 
-async resetRouter(): Promise<string> {
+  async resetRouter(): Promise<string> {
     const router = await this.getRouterDetails();
 
     router.model = 'RouterModel123';
@@ -194,8 +190,5 @@ async resetRouter(): Promise<string> {
 
     await this.routerRepository.save(router);
     return 'Router has been reset to default settings.';
-}
-
-
-
+  }
 }

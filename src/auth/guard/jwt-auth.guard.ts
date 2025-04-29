@@ -36,30 +36,28 @@ export class JwtAuthGuard implements CanActivate {
 
     const request = context.switchToHttp().getRequest();
     const token = this.getToken(request);
-    
+
     if (!token) {
       throw new UnauthorizedException('Authorization token is required');
     }
-    
+
     try {
       const payload = await this.jwtService.verifyAsync<ActiveAdminData>(
         token,
         this.jwtConfiguration,
       );
-      
-
+      // console.log('here:', payload);
       const isValidToken = await this.redisService.validate(
         `admin-${payload.id}`,
         payload.tokenId,
       );
       if (!isValidToken) {
-       
         throw new UnauthorizedException('Authorization token is not valid');
       }
 
       request[REQUEST_ADMIN_KEY] = payload;
     } catch (error) {
-      console.log('here:', error.message );
+      console.log('here:', error.message);
       throw new UnauthorizedException(error.message);
     }
 
@@ -68,7 +66,7 @@ export class JwtAuthGuard implements CanActivate {
 
   private getToken(request: Request) {
     const [_, token] = request.headers.authorization?.split(' ') ?? [];
-    
+
     return token;
   }
 }

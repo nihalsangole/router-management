@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APP_GUARD, } from '@nestjs/core';
+import { APP_GUARD } from '@nestjs/core';
 
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -30,8 +30,7 @@ import { RouterModule } from './router/router.module';
     RedisModule,
     AuthModule,
     RouterModule,
-    // UsersModule,
-
+    UsersModule,
   ],
   controllers: [AppController],
   providers: [

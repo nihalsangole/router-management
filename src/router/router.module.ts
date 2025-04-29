@@ -7,11 +7,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from 'src/auth/auth.module';
 import { ConnectedUser } from 'src/users/entities/connectedUser.entity';
 
-
 @Module({
-  imports: [TypeOrmModule.forFeature([Router,ConnectedUser]),AuthModule],
+  imports: [TypeOrmModule.forFeature([Router, ConnectedUser]), AuthModule],
   controllers: [RouterController],
   providers: [RouterService],
-
 })
 export class RouterModule {}

@@ -20,7 +20,6 @@
     "test:e2e": "NODE_ENV=test jest --config ./test/e2e/jest-e2e.json --runInBand --detectOpenHandles",
     "test:unit": "NODE_ENV=test jest --config ./test/unit/jest-unit.json --runInBand",
     "prepare": "husky install"
-
   },
   "dependencies": {
     "@nestjs/common": "^10.3.7",
