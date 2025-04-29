@@ -1,5 +1,3 @@
-
-
 ## Description
 
 NestJS Router Management API
@@ -9,13 +7,16 @@ This project is a NestJS-based REST API for managing a WiFi router. It includes 
 ## Features
 
 1. **Authentication**
+
    - Admin user is created on application startup with default credentials (`username: admin`, `password: admin`).
    - Login functionality for admin users.
 
 2. **Fetch Router Status**
+
    - Retrieve details such as model, firmware version, MAC address, serial number, and uptime.
 
 3. **Manage Router Settings**
+
    - Enable/Disable WiFi.
    - Enable/Disable Firewall.
    - Change the router password.
@@ -82,15 +83,17 @@ You can log in using these credentials and change the password later.
 
 ### Authentication
 
-1. **POST /auth/login**  
+1. **POST /auth/login**
    - Logs in the admin user and returns a JWT token.
 
 ### Router Management
 
-1. **GET /router/status**  
+1. **GET /router/status**
+
    - Fetch router details such as model, firmware version, MAC address, serial number, and uptime.
 
    **Example Response:**
+
    ```json
    {
      "model": "RouterModel123",
@@ -101,30 +104,38 @@ You can log in using these credentials and change the password later.
    }
    ```
 
-2. **POST /router/settings/wifi/enable**  
+2. **POST /router/settings/wifi/enable**
+
    - Enable WiFi.
 
-3. **POST /router/settings/wifi/disable**  
+3. **POST /router/settings/wifi/disable**
+
    - Disable WiFi.
 
-4. **POST /router/settings/firewall/enable**  
+4. **POST /router/settings/firewall/enable**
+
    - Enable the firewall.
 
-5. **POST /router/settings/firewall/disable**  
+5. **POST /router/settings/firewall/disable**
+
    - Disable the firewall.
 
-6. **POST /router/settings/password/change**  
+6. **POST /router/settings/password/change**
+
    - Change the router password.  
-   **Request Body:**
+     **Request Body:**
+
    ```json
    {
      "password": "new-password"
    }
    ```
 
-7. **POST /router/reset**  
+7. **POST /router/reset**
+
    - Reset the access point name (SSID) and password.  
-   **Request Body:**
+     **Request Body:**
+
    ```json
    {
      "ssid": "NewAccessPointName",
@@ -133,6 +144,7 @@ You can log in using these credentials and change the password later.
    ```
 
    **Example Response:**
+
    ```json
    {
      "success": true,
@@ -146,23 +158,6 @@ The application uses MySQL as the database. The `Router` entity will be used to 
 
 ### Example `Router` Entity
 
-
-## Testing
-
-Run unit tests using Jest:
-
-```bash
-$ npm test
-```
-
-## Docker for Development
-
-```bash
-# start the application
-$ npm run docker:up
-
-# stop the application
-$ npm run docker:down
 ```
 
 ## Swagger Documentation
@@ -176,3 +171,4 @@ The API documentation is available at:
 Ensure your project is well-organized and follows best practices. Submit the project as a zip file or provide a link to a private GitHub repository.
 
 
+```
